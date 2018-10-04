@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <style>
+    body {
+        background-color: black;
+        color: lime;
+        font-family: monospace;
+        box-sizing: border-box
+    }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500" style="display:inline-block; float: left; border: solid 1px lime;"></canvas>
+    <div style="display:inline-block; padding-left: 30px;">
+        <strong>Score:</strong>
+        <span id="score"></span>
+        <br>
+
+        <strong>Time:</strong>
+        <span id="time"></span>
+        <br>
+
+        <strong>Status:</strong>
+        <span id="status"></span>
+        <br>
+        <strong>Deaths:</strong>
+        <span id="deaths"></span>
+        <br>
+    </div>
+    <script src="snake.js"></script>
+</body>
+</html>
