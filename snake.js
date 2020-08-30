@@ -46,14 +46,13 @@ game = () => {
             player.tailLength = 5;
             if (!state.paused) {
                 countScore = true;
-                printText("you died");
+                printTextToStatusField("you died");
             }
         }
     }
     if (!state.paused) {
         if (countScore === true) {
             state.deaths++;
-            printText("DEATH " + state.deaths);
             deathEl.innerText = state.deaths;
             state.score = state.score-10;
             countScore = false;
@@ -93,7 +92,7 @@ keyPress = (ev) => {
     switch (ev.keyCode) {
         case 32: //Space
             state.paused = !state.paused;
-            printText("paused");
+            printTextToStatusField(state.paused ? "paused" : "");
             break;
         case 37: //Left
             if (velocity.x !== 1) {
@@ -127,7 +126,7 @@ keyPress = (ev) => {
     }
 }
 
-printText = (message) => {
+printTextToStatusField = (message) => {
     statusEl.innerText = message;
     setTimeout(() => {
         statusEl.innerText = "";
