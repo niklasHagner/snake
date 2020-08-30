@@ -14,31 +14,71 @@
         }
 
         body {
-            display: flex;
-            justify-content: center;
+            
             padding-top: 40px;
-            box-sizing: border-box;
             font-family: 'VT323', monospace;
             font-size: 30px;
             background-color: black;
             color: lime;
         }
+
+        body * {   
+            box-sizing: border-box;
+        }
+        
+        body * + * {
+            margin-top: 10px; 
+        }
+
+        #text-container {
+            font-weight: bold;
+            align-items: center;
+            justify-content: space-around;
+            display: flex;
+            text-align: center;
+        }
+        #text-container div {
+            font-weight: bold;
+        }
+        #text-container strong {
+            color: #479447;
+        }
+        #text-container span {
+            color: lime;
+        }
+
+        #canvas-wrapper {
+            display: flex;
+            display: flex;
+            justify-content: center;
+        }
+
+        #canvas {
+            border: solid 3px lime;
+        }
     </style>
 </head>
 <body>
-    <canvas id="canvas" width="500" height="500" style="position: absolute; top: 35px; left: 65px; border: solid 3px lime;"></canvas>
-    <div style="position:absolute; left: 590px;">
-        <strong>Apples:</strong>
-        <span id="score"></span>
-        <br>
+    <article id="text-container">
+        <div>
+            <strong>Apples:</strong>
+            <span id="score"></span>
 
-        <strong>Status:</strong>
-        <span id="status"></span>
-        <br>
-        <strong>Deaths:</strong>
-        <span id="deaths"></span>
-        <br>
-    </div>
+        </div>
+        <div>
+            <strong>Deaths:</strong>
+            <span id="deaths"></span>
+        </div>
+        <div>
+            <strong>Status:</strong>
+            <span id="status"></span>
+        </div>
+    </article>
+
+    <article id="canvas-wrapper">
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </article>
+    
     <script src="snake.js"></script>
 </body>
 </html>

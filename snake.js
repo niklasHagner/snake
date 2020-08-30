@@ -3,7 +3,7 @@ window.onload = () => {
     ctx = canvas.getContext("2d");
     document.addEventListener("keydown", keyPress);
     setInterval(game, 60);
-    scoreEl = document.getElementById("score");
+    appleCounterEl = document.getElementById("score");
     statusEl = document.getElementById("status");
     deathEl = document.getElementById("deaths");
 }
@@ -13,7 +13,7 @@ tileSize = canvas.width / tileCount;
 player = { x: 10, y: 10, tailLength: 5, trail: [] };
 apple = { x: 15, y: 15 };
 velocity = { x: 0, y: 0 };
-state = { score: 0, paused: true, deaths: 0 };
+state = { appleCounter: 0, score: 0, paused: true, deaths: 0 };
 
 let countScore = false;
 
@@ -66,8 +66,9 @@ game = () => {
     if (apple.x === player.x && apple.y === player.y) {
         player.tailLength++;
         state.score++;
+        state.appleCounter++;
         changeAppleLocation();
-        scoreEl.innerText = state.score;
+        appleCounterEl.innerText = state.appleCounter;
     }
     // ctx.fillRect(apple.x * tileSize, apple.y*tileSize, tileSize-2, tileSize-2);
     ctx.fillStyle = "red";
@@ -89,6 +90,13 @@ changeAppleLocation = () => {
 }
 
 keyPress = (ev) => {
+
+
+    //prevent space and arrow keys from scrolling the page
+    if([32, 37, 38, 39, 40].indexOf(ev.keyCode) > -1) {
+        ev.preventDefault();
+    }
+
     switch (ev.keyCode) {
         case 32: //Space
             state.paused = !state.paused;
