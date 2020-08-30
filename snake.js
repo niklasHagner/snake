@@ -18,6 +18,10 @@ state = { appleCounter: 0, score: 0, paused: true, deaths: 0 };
 let countScore = false;
 
 game = () => {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "lime";
+
     if (state.paused === false) {
         player.x += velocity.x;
         player.y += velocity.y;
@@ -33,24 +37,9 @@ game = () => {
         else if (player.y > tileCount - 1) {
             player.y = 0;
         }
-    }
-    
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "lime";
 
-    
-    for (let i = 0; i < player.trail.length; i++) {
-        ctx.fillRect(player.trail[i].x * tileSize, player.trail[i].y * tileSize, tileSize - 2, tileSize - 2);
-        if (player.trail[i].x === player.x && player.trail[i].y === player.y) {
-            player.tailLength = 5;
-            if (!state.paused) {
-                countScore = true;
-                printTextToStatusField("you died");
-            }
-        }
-    }
-    if (!state.paused) {
+        checkForCollisionWithTail();
+            
         if (countScore === true) {
             state.deaths++;
             deathEl.innerText = state.deaths;
@@ -63,16 +52,44 @@ game = () => {
     while (player.trail.length > player.tailLength) {
         player.trail.shift();
     }
-    if (apple.x === player.x && apple.y === player.y) {
-        player.tailLength++;
-        state.score++;
-        state.appleCounter++;
-        changeAppleLocation();
-        appleCounterEl.innerText = state.appleCounter;
-    }
-    // ctx.fillRect(apple.x * tileSize, apple.y*tileSize, tileSize-2, tileSize-2);
-    ctx.fillStyle = "red";
+    checkAppleCollision();
+    ctx.fillStyle = "crimson";
     ctx.fillRect(apple.x * tileSize, apple.y * tileSize, tileSize - 2, tileSize - 2);
+}
+
+checkForCollisionWithTail = () => {
+    for (let i = 0; i < player.trail.length; i++) {
+        ctx.fillRect(player.trail[i].x * tileSize, player.trail[i].y * tileSize, tileSize - 2, tileSize - 2);
+        if (player.trail[i].x === player.x && player.trail[i].y === player.y) {
+            collisionWithTail(i);
+            break;
+        }
+    }
+}
+
+checkAppleCollision = () => {
+    let isAppleHit = apple.x === player.x && apple.y === player.y;
+    if (!isAppleHit)
+        return;
+
+    player.tailLength++;
+    state.score++;
+    state.appleCounter++;
+    changeAppleLocation();
+    appleCounterEl.innerText = state.appleCounter;
+
+    let msg = "tail " + player.tailLength;
+    printTextToStatusField(msg);
+}
+
+collisionWithTail = (i) => {
+    console.log("collisionWithTail: ", player.trail[i].x , ",", player.trail[i].y, "player info:", player);
+    if (!state.paused) {
+        countScore = true;
+        let msg = "you died with tail " + player.tailLength;
+        printTextToStatusField(msg);
+    }
+    player.tailLength = 5;
 }
 
 changeAppleLocation = () => {
@@ -91,10 +108,12 @@ changeAppleLocation = () => {
 
 keyPress = (ev) => {
 
-
-    //prevent space and arrow keys from scrolling the page
-    if([32, 37, 38, 39, 40].indexOf(ev.keyCode) > -1) {
+    if([32, 37, 38, 39, 40].indexOf(ev.keyCode) > -1) { //prevent space and arrow keys from scrolling the page
         ev.preventDefault();
+    }
+
+    if([37, 38, 39, 40].indexOf(ev.keyCode) > -1) { //unpause when using arrow-keys
+        state.paused = false;
     }
 
     switch (ev.keyCode) {
@@ -106,25 +125,21 @@ keyPress = (ev) => {
             if (velocity.x !== 1) {
                 velocity.x = -1; velocity.y = 0;
             }
-            state.paused = false;
             break;
         case 38: //Up
             if (velocity.y !== 1) {
                 velocity.x = 0; velocity.y = -1;
             }
-            state.paused = false;
             break;
         case 39: //Right
             if (velocity.x !== -1) {
                 velocity.x = 1; velocity.y = 0;
             }
-            state.paused = false;
             break;
         case 40: //Down
             if (velocity.y !== -1) {
                 velocity.x = 0; velocity.y = 1;
             }
-            state.paused = false;
             break;
         default:
             if (state.paused) {
