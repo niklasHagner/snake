@@ -28,13 +28,21 @@
 
         #text-container {
             font-weight: bold;
-            font-weight: bold;
             margin: 0 auto;
+            text-align: center;
         }
         #text-container div {
-            width: 30%;
             display: inline-flex;
             justify-conten: space-between;
+        }
+        #text-container div:nth-of-type(1) {
+            width: 200px;
+        }
+        #text-container div:nth-of-type(2) {
+            width: 200px;
+        }
+        #text-container div:nth-of-type(3) {
+            width: 400px;
         }
         #text-container strong {
             color: #479447;
@@ -52,6 +60,14 @@
 
         #canvas {
             border: solid 3px lime;
+        }
+
+        #logo {
+            display: block;
+            font-family: monospace;
+            font-size: 10px;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -75,6 +91,14 @@
     <article id="canvas-wrapper">
         <canvas id="canvas" width="500" height="500"></canvas>
     </article>
+
+    <pre id="logo" class="fig" contenteditable="false"> _______  __    _  _______  ___   _  _______ 
+|       ||  |  | ||   _   ||   | | ||       |
+|  _____||   |_| ||  |_|  ||   |_| ||    ___|
+| |_____ |       ||       ||      _||   |___ 
+|_____  ||  _    ||       ||     |_ |    ___|
+ _____| || | |   ||   _   ||    _  ||   |___ 
+|_______||_|  |__||__| |__||___| |_||_______|</pre>
     
     <script src="snake.js"></script>
 </body>
